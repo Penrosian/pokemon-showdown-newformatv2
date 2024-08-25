@@ -10495,6 +10495,41 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 	},
+	latebloom: {
+		num: 10004,
+		accuracy: 100,
+		basePower: 130,
+		priority: -6, 
+		category: "Special",
+		target: "allAdjacentFoes",
+		pp: 5,
+		flags: {contact: 1},
+		self: {
+			volatileStatus: 'latebloom',
+		},
+		condition: {
+			duration: 2,
+			noCopy: true,
+			onTrapPokemon(pokemon) {
+				pokemon.tryTrap();
+			},
+			onModifySpe(spe, pokemon) {
+				return this.chainModify(1, 2);
+			},
+		},
+		onModifyPriority(priority, source, target, move) {
+			if (this.field.isTerrain('grassyterrain') && source.isGrounded()) {
+				return priority + 8;
+			}
+		},
+		onHit(target, source) {
+			if (this.field.isTerrain('grassyterrain') && source.isGrounded()) {
+				this.field.clearTerrain();
+			}
+		},
+		name: "Late Bloom",
+		type: "Grass"
+	},
 	lavaplume: {
 		num: 436,
 		accuracy: 100,
