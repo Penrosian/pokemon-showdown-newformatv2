@@ -331,7 +331,7 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 			}
 		},
 		num: 10003,
-		gen: 10000,
+		gen: 0,
 	},
 	assaultvest: {
 		name: "Assault Vest",
@@ -1509,7 +1509,7 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 			}
 		},
 		num: 10002,
-		gen: 10000,
+		gen: 0,
 	},
 	dubiousdisc: {
 		name: "Dubious Disc",
