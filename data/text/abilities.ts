@@ -1187,6 +1187,11 @@ export const AbilitiesText: {[id: IDEntry]: AbilityText} = {
 			shortDesc: "At 1/3 or less of its max HP, this Pokemon's Grass-type attacks have 1.5x power.",
 		},
 	},
+	overwhelmingpresence: {
+		name: "Overwhelming Presence",
+		desc: "On switch-in, this Pokemon lowers the Special Attack of opposing Pokemon by 1 stage. Pokemon with the Inner Focus, Oblivious, Own Tempo, or Scrappy Abilities and Pokemon behind a substitute are immune.",
+		shortDesc: "On switch-in, this Pokemon lowers the Special Attack of opponents by 1 stage.",
+	},
 	owntempo: {
 		name: "Own Tempo",
 		desc: "This Pokemon cannot be confused. Gaining this Ability while confused cures it. This Pokemon is immune to the effect of the Intimidate Ability.",
@@ -2211,7 +2216,7 @@ export const AbilitiesText: {[id: IDEntry]: AbilityText} = {
 	},
 	windylandscape: {
 		name: "Windy Landscape",
-		shortDesc: "On switch-in, this Pokemon summons Wind."
+		shortDesc: "On switch-in, this Pokemon summons Wind.",
 	},
 	wonderguard: {
 		name: "Wonder Guard",

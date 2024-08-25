@@ -431,6 +431,10 @@ export const ItemsText: {[id: IDEntry]: ItemText} = {
 			shortDesc: "A special Poke Ball that appears out of nowhere in a bag at the Entree Forest.",
 		},
 	},
+	dropperorb: {
+		name: "Dropper Orb",
+		shortDesc: "Stat-dropping moves have 1.25x power."
+	},
 	dubiousdisc: {
 		name: "Dubious Disc",
 		shortDesc: "Evolves Porygon2 into Porygon-Z when traded.",
@@ -1170,7 +1174,11 @@ export const ItemsText: {[id: IDEntry]: ItemText} = {
 	},
 	mindplate: {
 		name: "Mind Plate",
-		shortDesc: "Holder's Psychic-type attacks have 1.2x power. Judgment is Psychic type.",
+		shortDesc: "Holder's Psychic-type attacks have 1.2x power. Judgement is Psychic type.",
+	},
+	mininuke: {
+		name: "Mini Nuke",
+		shortDesc: "Holder's attack is dropped by 1 stage and then uses self-destruct when it faints on the first turn.",
 	},
 	miracleseed: {
 		name: "Miracle Seed",
@@ -1768,6 +1776,12 @@ export const ItemsText: {[id: IDEntry]: ItemText} = {
 	strawberrysweet: {
 		name: "Strawberry Sweet",
 		shortDesc: "Evolves Milcery into Alcremie when held and spun around.",
+	},
+	strengthherb: {
+		name: "Strength Herb",
+		shortDesc: "Holder's recharge moves don't require a recharge turn. Single use.",
+
+		end: "  [POKEMON] became fully charged due to its Strength Herb!",
 	},
 	sunstone: {
 		name: "Sun Stone",
