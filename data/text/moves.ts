@@ -4296,7 +4296,7 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 	motivationalvoice: {
 		name: "Motivational Voice",
 		desc: "Removes all of the target's stat drops. If the target's HP is less than 25% (rounded up), raises the targets attack, sp. atk, and speed by 1 stage. Fails if there is no ally adjacent to the user.",
-		shortDesc: "Removes target's stat drops. If target's HP is less than 25%, boosts atk, sp. atk, and spd. Targets an adjacent ally."
+		shortDesc: "Removes stat drops. HP < 25% boosts stats."
 	},
 	mountaingale: {
 		name: "Mountain Gale",
