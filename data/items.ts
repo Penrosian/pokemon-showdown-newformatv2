@@ -1470,6 +1470,26 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		gen: 5,
 		isPokeball: true,
 	},
+	dropperorb: {
+		name: "Dropper Orb",
+		fling: {
+			basePower: 65,
+		},
+		spritenum: 515,
+		onBasePowerPriority: 15,
+		onBasePower(basePower, user, target, move) {
+			let i: BoostID;
+			if (move.self && move.self.boosts) {
+				for (i in move.self.boosts) {
+					if (move.self.boosts[i] < 0) {
+						return this.chainModify([5, 4]);
+					}
+				}
+			}
+		},
+		num: 10002,
+		gen: 10000,
+	},
 	dubiousdisc: {
 		name: "Dubious Disc",
 		spritenum: 113,
@@ -3785,7 +3805,7 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		},
 		onEnd(target) {
 			if (!target.activeTurns) {
-				
+
 			}
 		},
 		spritenum: 660,

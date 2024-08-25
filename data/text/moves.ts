@@ -1641,8 +1641,8 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 	},
 	dynamicpunch: {
 		name: "Dynamic Punch",
-		desc: "Has a 100% chance to confuse the target.",
-		shortDesc: "100% chance to confuse the target.",
+		desc: "Has a 100% chance to confuse the target. If this move is successful, the user must recharge on the following turn and cannot select a move.",
+		shortDesc: "100% chance to confuse the target. User cannot move next turn.",
 	},
 	earthpower: {
 		name: "Earth Power",
@@ -3294,8 +3294,8 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 	},
 	inferno: {
 		name: "Inferno",
-		desc: "Has a 100% chance to burn the target.",
-		shortDesc: "100% chance to burn the target.",
+		desc: "Has a 100% chance to burn the target. If this move is successful, the user must recharge on the following turn and cannot select a move.",
+		shortDesc: "100% chance to burn the target. User cannot move next turn,",
 	},
 	infernooverdrive: {
 		name: "Inferno Overdrive",
@@ -6037,8 +6037,8 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 	},
 	solarblade: {
 		name: "Solar Blade",
-		desc: "This attack charges on the first turn and executes on the second. Power is halved if the weather is Hail, Primordial Sea, Rain Dance, or Sandstorm and the user is not holding Utility Umbrella. If the user is holding a Power Herb or the weather is Desolate Land or Sunny Day, the move completes in one turn. If the user is holding Utility Umbrella and the weather is Desolate Land or Sunny Day, the move still requires a turn to charge.",
-		shortDesc: "Charges turn 1. Hits turn 2. No charge in sunlight.",
+		desc: "This attack charges on the first turn and executes on the second. Power is halved if the weather is Hail, Primordial Sea, Rain Dance, or Sandstorm and the user is not holding Utility Umbrella. If the user is holding a Power Herb or the weather is Desolate Land or Sunny Day, the move completes in one turn. If the user is holding Utility Umbrella and the weather is Desolate Land or Sunny Day, the move still requires a turn to charge. This move is always a critical hit unless the target is under the effect of Lucky Chant or has the Battle Armor or Shell Armor Abilities.",
+		shortDesc: "Charges turn 1. Hits turn 2. No charge in sunlight. Always crits.",
 		gen8: {
 			desc: "This attack charges on the first turn and executes on the second. Power is halved if the weather is Primordial Sea, Rain Dance, Sandstorm, or Snow and the user is not holding Utility Umbrella. If the user is holding a Power Herb or the weather is Desolate Land or Sunny Day, the move completes in one turn. If the user is holding Utility Umbrella and the weather is Desolate Land or Sunny Day, the move still requires a turn to charge.",
 		},
@@ -7408,8 +7408,8 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 	},
 	wildcharge: {
 		name: "Wild Charge",
-		desc: "If the target lost HP, the user takes recoil damage equal to 1/4 the HP lost by the target, rounded half up, but not less than 1 HP.",
-		shortDesc: "Has 1/4 recoil.",
+		desc: "If the target lost HP, the user takes recoil damage equal to 1/3 the HP lost by the target, rounded half up, but not less than 1 HP.",
+		shortDesc: "Has 1/3 recoil.",
 	},
 	willowisp: {
 		name: "Will-O-Wisp",
@@ -7524,8 +7524,8 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 	},
 	zapcannon: {
 		name: "Zap Cannon",
-		desc: "Has a 100% chance to paralyze the target.",
-		shortDesc: "100% chance to paralyze the target.",
+		desc: "Has a 100% chance to paralyze the target. If this move is successful, the user must recharge on the following turn and cannot select a move.",
+		shortDesc: "100% chance to paralyze the target. User cannot move next turn.",
 	},
 	zenheadbutt: {
 		name: "Zen Headbutt",
