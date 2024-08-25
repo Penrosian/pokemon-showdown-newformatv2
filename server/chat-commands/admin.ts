@@ -563,7 +563,7 @@ export const commands: Chat.ChatCommands = {
 	forcehotpatch: 'hotpatch',
 	async hotpatch(target, room, user, connection, cmd) {
 		if (!target) return this.parse('/help hotpatch');
-		this.canUseConsole();
+		this.checkCan('gdeclare');
 
 		if (Monitor.updateServerLock) {
 			return this.errorReply("Wait for /updateserver to finish before hotpatching.");
