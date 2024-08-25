@@ -4341,6 +4341,11 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 		desc: "This move's type depends on the user's held Memory.",
 		shortDesc: "Type varies based on the held Memory.",
 	},
+	multislash: {
+		name: "Multi-Slash",
+		desc: "Hits four to six times. If a substitue is broken by one hit of the move, the Pokemon will take full damage from the rest of the hits of the move. The sixth hit has 35 base power. Has a higher chance for a crit.",
+		shortDesc: "Hits 4-6 times. 6th hit has 35 power. Hightened crit ratio.",
+	},
 	mysticalfire: {
 		name: "Mystical Fire",
 		desc: "Has a 100% chance to lower the target's Special Attack by 1 stage.",

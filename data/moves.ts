@@ -12819,9 +12819,6 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		flags: {},
 		secondary: null,
 		onHit(target, source, move) {
-			if (target.hp <= Math.ceil(source.maxhp / 4)) {
-				this.boost({atk: 1, spa: 1, spe: 1}, target, source);
-			}
 			let activate = false;
 			const boosts: SparseBoostsTable = {};
 			let i: BoostID;
@@ -12834,6 +12831,9 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			if (activate) {
 				target.setBoost(boosts);
 				this.add('-clearnegativeboost', target, '[silent]');
+			}
+			if (target.hp <= Math.ceil(source.maxhp / 4)) {
+				this.boost({atk: 1, spa: 1, spe: 1}, target, source);
 			}
 		},
 	},
@@ -12985,6 +12985,28 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		zMove: {basePower: 185},
 		maxMove: {basePower: 95},
 		contestType: "Tough",
+	},
+	multislash: {
+		multihit: [4, 6],
+		num: 10003,
+		name: "Multi-Slash",
+		accuracy: 100,
+		basePower: 10,
+		basePowerCallback(pokemon, target, move) {
+			if (move.hit === 6) {
+				return 35;
+			}
+			else {
+				return 10;
+			}
+		},
+		category: "Physical",
+		pp: 10,
+		type: "Normal",
+		target: "normal",
+		flags: {contact: 1},
+		priority: 0,
+		critRatio: 2,
 	},
 	mysticalfire: {
 		num: 595,
