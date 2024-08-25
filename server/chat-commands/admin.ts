@@ -563,7 +563,7 @@ export const commands: Chat.ChatCommands = {
 	forcehotpatch: 'hotpatch',
 	async hotpatch(target, room, user, connection, cmd) {
 		if (!target) return this.parse('/help hotpatch');
-		this.checkCan('gdeclare');
+		this.checkCan('rangeban');
 
 		if (Monitor.updateServerLock) {
 			return this.errorReply("Wait for /updateserver to finish before hotpatching.");
@@ -1423,7 +1423,7 @@ export const commands: Chat.ChatCommands = {
 	],
 
 	async rebuild() {
-		this.canUseConsole();
+		this.checkCan('rangeban');
 		const [, , stderr] = await bash('node ./build', this);
 		if (stderr) {
 			throw new Chat.ErrorMessage(`Crash while rebuilding: ${stderr}`);
