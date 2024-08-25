@@ -3499,6 +3499,11 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 		desc: "Power is equal to 50+(X*50), where X is the total number of times any Pokemon has fainted on the user's side, and X cannot be greater than 100.",
 		shortDesc: "+50 power for each time a party member fainted.",
 	},
+	latebloom: {
+		name: "Late Bloom",
+		desc: "This move nearly always moves last (-6 priority). User cannot switch out next turn and user's speed is halved next turn. On grassy terrain, priority is increased by 8 and removes grassy terrain immediately before attacking.",
+		shortDesc: "-6 priority. Can't switch & half speed next turn.",
+	},
 	lavaplume: {
 		name: "Lava Plume",
 		desc: "Has a 30% chance to burn the target.",
