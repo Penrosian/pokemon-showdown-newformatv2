@@ -10141,6 +10141,22 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "normal",
 		type: "Grass",
 	},
+	ivytackle: {
+		num: 20002,
+		accuracy: 100,
+		basePower: 70,
+		category: "Physical",
+		name: "Ivy Tackle",
+		pp: 20,
+		priority: 0,
+		flags: {contact: 1, protect: 1, mirror: 1, metronome: 1, bite: 1},
+		secondary: {
+			chance: 30,
+			status: 'psn',
+		},
+		target: "normal",
+		type: "Grass",
+	},
 	jawlock: {
 		num: 746,
 		accuracy: 100,
@@ -19227,6 +19243,31 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Dark",
 		contestType: "Clever",
 	},
+	sunbask: {
+		num: 20003,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		name: "Sunbask",
+		pp: 10,
+		priority: 0,
+		flags: {snatch: 1, metronome: 1},
+		boosts: {
+			def: 1,
+			spd: 1,	
+		},
+		onModifyMove(move, pokemon) {
+            switch (pokemon.effectiveWeather()) {
+            case 'sunnyday':
+            case 'desolateland':
+                move.self.boosts = {atk: 1, spa: 1} ;
+                break;
+            }
+        },
+		secondary: null,
+		target: "self",
+		type: "Grass",
+	},
 	sunnyday: {
 		num: 241,
 		accuracy: true,
@@ -21299,7 +21340,22 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		secondary: null,
 		target: "normal",
 		type: "Grass",
-		contestType: "Cool",
+	},
+	vinecrush: {
+		num: 20001,
+		accuracy: 100,
+		basePower: 85,
+		category: "Special",
+		name: "Vine Crush",
+		pp: 15,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, metronome: 1},
+		secondary: {
+			chance: 10,
+			volatileStatus: 'flinch',
+		},
+		target: "normal",
+		type: "Grass",
 	},
 	visegrip: {
 		num: 11,

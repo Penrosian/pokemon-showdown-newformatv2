@@ -3376,6 +3376,11 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 		desc: "Has a higher chance for a critical hit. If the user is an Ogerpon holding a mask, this move's type changes to match. Water type for Wellspring Mask, Fire type for Hearthflame Mask, and Rock type for Cornerstone Mask.",
 		shortDesc: "High critical hit ratio. Type depends on user's form.",
 	},
+	ivytackle: {
+		name: "Ivy Tackle",
+		desc: "Has a 30% chance to poison the target.",
+		shortDesc: "30% chance to poison the target.",
+	},
 	jawlock: {
 		name: "Jaw Lock",
 		desc: "Prevents the user and the target from switching out. The user and the target can still switch out if either of them is holding Shed Shell or uses Baton Pass, Flip Turn, Parting Shot, Teleport, U-turn, or Volt Switch. The effect ends if either the user or the target leaves the field.",
@@ -6491,6 +6496,11 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 			desc: "Fails if the target did not select a physical or special attack for use this turn, or if the target moves before the user.",
 		},
 	},
+	sunbask: {
+		name: "Sunbask",
+		desc: "Raises the user's Defense and Special Defense by 1 stage. If the current weather is Sunny Day or Desolate Land, also raises the user's Attack and Special Attack by 1 stage.",
+		shortDesc: "+ 1 Def, + 1 SpD; if sun, also + 1 Atk, +1 SpA.",
+	},
 	sunnyday: {
 		name: "Sunny Day",
 		desc: "For 5 turns, the weather becomes Sunny Day. The damage of Fire-type attacks is multiplied by 1.5 and the damage of Water-type attacks is multiplied by 0.5 during the effect. Lasts for 8 turns if the user is holding Heat Rock. Fails if the current weather is Sunny Day.",
@@ -7231,6 +7241,11 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 	vinewhip: {
 		name: "Vine Whip",
 		shortDesc: "No additional effect.",
+	},
+	vinecrush: {
+		name: "Vine Crush",
+		desc: "Has a 10% chance to make the target flinch.",
+		shortDesc: "10% chance to make the target flinch.",
 	},
 	visegrip: {
 		name: "Vise Grip",
