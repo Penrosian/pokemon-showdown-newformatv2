@@ -990,6 +990,20 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		zMove: {boost: {def: 1}},
 		contestType: "Cute",
 	},
+	backstabbeam: {
+		num: 10001,
+		accuracy: 100,
+		basePower: 70,
+		category: "Special",
+		name: "Backstab Beam",
+		target: "normal",
+		type: "Normal",
+		secondary: null,
+		breaksProtect: true,
+		pp: 15,
+		priority: 0,
+		flags: {},
+	},
 	baddybad: {
 		num: 737,
 		accuracy: 95,
@@ -1455,8 +1469,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	},
 	blastburn: {
 		num: 307,
-		accuracy: 90,
-		basePower: 150,
+		accuracy: 100,
+		basePower: 165,
 		category: "Special",
 		name: "Blast Burn",
 		pp: 5,
@@ -5099,10 +5113,9 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	},
 	eternabeam: {
 		num: 795,
-		accuracy: 90,
-		basePower: 160,
+		accuracy: 100,
+		basePower: 180,
 		category: "Special",
-		isNonstandard: "Past",
 		name: "Eternabeam",
 		pp: 5,
 		priority: 0,
@@ -6156,8 +6169,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	},
 	focusblast: {
 		num: 411,
-		accuracy: 70,
-		basePower: 120,
+		accuracy: 80,
+		basePower: 115,
 		category: "Special",
 		name: "Focus Blast",
 		pp: 5,
@@ -6451,8 +6464,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	},
 	frenzyplant: {
 		num: 338,
-		accuracy: 90,
-		basePower: 150,
+		accuracy: 100,
+		basePower: 165,
 		category: "Special",
 		name: "Frenzy Plant",
 		pp: 5,
@@ -9364,8 +9377,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	},
 	hydrocannon: {
 		num: 308,
-		accuracy: 90,
-		basePower: 150,
+		accuracy: 100,
+		basePower: 165,
 		category: "Special",
 		name: "Hydro Cannon",
 		pp: 5,
@@ -9381,7 +9394,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	},
 	hydropump: {
 		num: 56,
-		accuracy: 80,
+		accuracy: 85,
 		basePower: 110,
 		category: "Special",
 		name: "Hydro Pump",
@@ -12127,7 +12140,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	meteorassault: {
 		num: 794,
 		accuracy: 100,
-		basePower: 150,
+		basePower: 170,
 		category: "Physical",
 		isNonstandard: "Past",
 		name: "Meteor Assault",
@@ -12562,7 +12575,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	mistyexplosion: {
 		num: 802,
 		accuracy: 100,
-		basePower: 100,
+		basePower: 150,
 		category: "Special",
 		name: "Misty Explosion",
 		pp: 5,
@@ -12572,7 +12585,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		onBasePower(basePower, source) {
 			if (this.field.isTerrain('mistyterrain') && source.isGrounded()) {
 				this.debug('misty terrain boost');
-				return this.chainModify(1.5);
+				return this.chainModify(5, 3);
 			}
 		},
 		secondary: null,
@@ -12792,6 +12805,37 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		},
 		target: "allAdjacentFoes",
 		type: "Poison",
+	},
+	motivationalvoice: {
+		num: 10002,
+		basePower: 0,
+		category: "Status",
+		name: "Motivational Voice",
+		accuracy: true,
+		pp: 15,
+		target: "adjacentAlly",
+		type: "Normal",
+		priority: 0,
+		flags: {},
+		secondary: null,
+		onHit(target, source, move) {
+			if (target.hp <= Math.ceil(source.maxhp / 4)) {
+				this.boost({atk: 1, spa: 1, spe: 1}, target, source);
+			}
+			let activate = false;
+			const boosts: SparseBoostsTable = {};
+			let i: BoostID;
+			for (i in target.boosts) {
+				if (target.boosts[i] < 0) {
+					activate = true;
+					boosts[i] = 0;
+				}
+			}
+			if (activate) {
+				target.setBoost(boosts);
+				this.add('-clearnegativeboost', target, '[silent]');
+			}
+		},
 	},
 	mountaingale: {
 		num: 836,
@@ -13907,7 +13951,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	},
 	playrough: {
 		num: 583,
-		accuracy: 90,
+		accuracy: 100,
 		basePower: 90,
 		category: "Physical",
 		name: "Play Rough",
@@ -14456,10 +14500,10 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	prismaticlaser: {
 		num: 711,
 		accuracy: 100,
-		basePower: 160,
+		basePower: 180,
 		category: "Special",
 		name: "Prismatic Laser",
-		pp: 10,
+		pp: 5,
 		priority: 0,
 		flags: {recharge: 1, protect: 1, mirror: 1, metronome: 1},
 		self: {
@@ -14829,6 +14873,25 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "normal",
 		type: "Psychic",
 		contestType: "Clever",
+	},
+	pulverize: {
+		num: 10000,
+		accuracy: 100,
+		basePower: 55,
+		category: "Physical",
+		name: "Pulverize",
+		pp: 5,
+		priority: 0,
+		flags: {recharge: 1, contact: 1},
+		secondary: {
+			chance: 100,
+			volatileStatus: 'flinch',
+		},
+		self: {
+			volatileStatus: 'mustrecharge',
+		},
+		target: "normal",
+		type: "Normal",
 	},
 	pulverizingpancake: {
 		num: 701,
@@ -15731,8 +15794,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	},
 	roaroftime: {
 		num: 459,
-		accuracy: 90,
-		basePower: 150,
+		accuracy: 100,
+		basePower: 180,
 		category: "Special",
 		name: "Roar of Time",
 		pp: 5,

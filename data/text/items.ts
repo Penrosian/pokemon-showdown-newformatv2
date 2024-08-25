@@ -82,6 +82,10 @@ export const ItemsText: {[id: IDEntry]: ItemText} = {
 		name: "Aspear Berry",
 		shortDesc: "Holder is cured if it is frozen. Single use.",
 	},
+	assaulthelmet: {
+		name: "Assault Helmet",
+		shortDesc: "Holder's Defense is 1.5x, but it can only select damaging moves.",
+	},
 	assaultvest: {
 		name: "Assault Vest",
 		shortDesc: "Holder's Sp. Def is 1.5x, but it can only select damaging moves.",

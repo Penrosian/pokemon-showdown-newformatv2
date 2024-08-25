@@ -4293,6 +4293,11 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 		desc: "If this move is successful and the user has not fainted, the effects of Leech Seed and binding moves end for the user, and all hazards are removed from the user's side of the field. Has a 100% chance to poison the target.",
 		shortDesc: "Poisons foes, frees user from hazards/bind/leech.",
 	},
+	motivationalvoice: {
+		name: "Motivational Voice",
+		desc: "Removes all of the target's stat drops. If the target's HP is less than 25% (rounded up), raises the targets attack, sp. atk, and speed by 1 stage. Fails if there is no ally adjacent to the user.",
+		shortDesc: "Removes target's stat drops. If target's HP is less than 25%, boosts atk, sp. atk, and spd. Targets an adjacent ally."
+	},
 	mountaingale: {
 		name: "Mountain Gale",
 		desc: "Has a 30% chance to make the target flinch.",
@@ -4937,6 +4942,11 @@ export const MovesText: {[id: IDEntry]: MoveText} = {
 			desc: "Deals damage to the target equal to a random number from 1 to (user's level * 1.5 - 1), rounded down, but not less than 1 HP.",
 			shortDesc: "Random damage from 1 to (user's level*1.5 - 1).",
 		},
+	},
+	pulverize: {
+		name: "Pulverize",
+		desc: "Has a 100% chance to make the target flinch. If this move is successful, the user must recharge on the following turn and cannot select a move.",
+		shortDesc: "100% flinch chance. User cannot move next turn.",
 	},
 	pulverizingpancake: {
 		name: "Pulverizing Pancake",
