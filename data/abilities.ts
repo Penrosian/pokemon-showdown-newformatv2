@@ -1690,6 +1690,10 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 				delete boost.atk;
 				this.boost({atk: 1}, target, target, null, false, true);
 			}
+			if (effect.name === 'Overwhelming Presence' && boost.spa) {
+				delete boost.spa;
+				this.add('-fail', target, 'unboost', 'Special Attack', '[from] ability: Guard Dog', '[of] ' + target);
+			}
 		},
 		flags: {breakable: 1},
 		name: "Guard Dog",
@@ -2116,6 +2120,10 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 				delete boost.atk;
 				this.add('-fail', target, 'unboost', 'Attack', '[from] ability: Inner Focus', '[of] ' + target);
 			}
+			if (effect.name === 'Overwhelming Presence' && boost.spa) {
+				delete boost.spa;
+				this.add('-fail', target, 'unboost', 'Special Attack', '[from] ability: Inner Focus', '[of] ' + target);
+			}
 		},
 		flags: {breakable: 1},
 		name: "Inner Focus",
@@ -2384,6 +2392,29 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		name: "Liquid Voice",
 		rating: 1.5,
 		num: 204,
+	},
+	loadlighten: {
+		onAfterUseItem(item, pokemon) {
+			if (pokemon !== this.effectState.target) return;
+			pokemon.addVolatile('loadlighten');
+		},
+		onTakeItem(item, pokemon) {
+			pokemon.addVolatile('loadlighten');
+		},
+		onEnd(pokemon) {
+			pokemon.removeVolatile('loadlighten');
+		},
+		condition: {
+			onModifyAtk(atk, pokemon) {
+				if (!pokemon.item && !pokemon.ignoringAbility()) {
+					return this.chainModify(2);
+				}
+			},
+		},
+		flags: {},
+		name: "Load Lighten",
+		rating: 3.5,
+		num: 84,
 	},
 	longreach: {
 		onModifyMove(move) {
@@ -2976,6 +3007,10 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 				delete boost.atk;
 				this.add('-fail', target, 'unboost', 'Attack', '[from] ability: Oblivious', '[of] ' + target);
 			}
+			if (effect.name === 'Overwhelming Presence' && boost.spa) {
+				delete boost.spa;
+				this.add('-fail', target, 'unboost', 'Special Attack', '[from] ability: Oblivious', '[of] ' + target);
+			}
 		},
 		flags: {breakable: 1},
 		name: "Oblivious",
@@ -3057,6 +3092,26 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		rating: 2,
 		num: 65,
 	},
+	overwhelmingpresence: {
+		onStart(pokemon) {
+			let activated = false;
+			for (const target of pokemon.adjacentFoes()) {
+				if (!activated) {
+					this.add('-ability', pokemon, 'Overwhelming Presence', 'boost');
+					activated = true;
+				}
+				if (target.volatiles['substitute']) {
+					this.add('-immune', target);
+				} else {
+					this.boost({spa: -1}, target, pokemon, null, true);
+				}
+			}
+		},
+		flags: {},
+		name: "Overwhelming Presence",
+		rating: 3.5,
+		num: 22,
+	},
 	owntempo: {
 		onUpdate(pokemon) {
 			if (pokemon.volatiles['confusion']) {
@@ -3076,6 +3131,10 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 			if (effect.name === 'Intimidate' && boost.atk) {
 				delete boost.atk;
 				this.add('-fail', target, 'unboost', 'Attack', '[from] ability: Own Tempo', '[of] ' + target);
+			}
+			if (effect.name === 'Overwhelming Presence' && boost.spa) {
+				delete boost.spa;
+				this.add('-fail', target, 'unboost', 'Special Attack', '[from] ability: Own Tempo', '[of] ' + target);
 			}
 		},
 		flags: {breakable: 1},
@@ -3352,6 +3411,17 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		name: "Prankster",
 		rating: 4,
 		num: 158,
+	},
+	preemptivestrike: {
+		onDamagingHit(damage, target, source, move) {
+			if (this.checkMoveMakesContact(move, source, target)) {
+				this.damage(source.baseMaxhp / 6, source, target);
+			}
+		},
+		flags: {},
+		name: "Pressure",
+		rating: 3.5,
+		num: 10001,
 	},
 	pressure: {
 		onStart(pokemon) {
@@ -3699,6 +3769,10 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 			if (effect?.name === 'Intimidate' && boost.atk) {
 				this.boost({spe: 1});
 			}
+			if (effect.name === 'Overwhelming Presence' && boost.spa) {
+				delete boost.spa;
+				this.add('-fail', target, 'unboost', 'Special Attack', '[from] ability: Rattled', '[of] ' + target);
+			}
 		},
 		flags: {},
 		name: "Rattled",
@@ -4011,6 +4085,10 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 			if (effect.name === 'Intimidate' && boost.atk) {
 				delete boost.atk;
 				this.add('-fail', target, 'unboost', 'Attack', '[from] ability: Scrappy', '[of] ' + target);
+			}
+			if (effect.name === 'Overwhelming Presence' && boost.spa) {
+				delete boost.spa;
+				this.add('-fail', target, 'unboost', 'Special Attack', '[from] ability: Scrappy', '[of] ' + target);
 			}
 		},
 		flags: {},
@@ -5493,6 +5571,15 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		rating: 3.5,
 		// We do not want Brambleghast to get Infiltrator in Randbats
 		num: 274,
+	},
+	windylandscape: {
+		onStart(source) {
+			this.field.setWeather('windweather');
+		},
+		flags: {},
+		name: "Windy Landscape",
+		rating: 4,
+		num: 10000,
 	},
 	wonderguard: {
 		onTryHit(target, source, move) {

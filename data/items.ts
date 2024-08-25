@@ -3778,6 +3778,20 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		num: 307,
 		gen: 4,
 	},
+	mininuke: {
+		name: "Mini Nuke",
+		fling: {
+			basePower: 100
+		},
+		onEnd(target) {
+			if (!target.activeTurns) {
+				
+			}
+		},
+		spritenum: 660,
+		num: 10001,
+		gen: 10000
+	},
 	miracleseed: {
 		name: "Miracle Seed",
 		fling: {
@@ -5683,6 +5697,23 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		},
 		num: 1109,
 		gen: 8,
+	},
+	strengthherb: {
+		onChargeMove(pokemon, target, move) {
+			if (pokemon.useItem()) {
+				this.debug('strength herb - remove recharge turn for ' + move.id);
+				this.attrLastMove('[still]');
+				this.addMove('-anim', pokemon, move.name, target);
+				return false; // skip charge turn
+			}
+		},
+		name: "Strength Herb",
+		spritenum: 358,
+		fling: {
+			basePower: 10,
+		},
+		num: 10000,
+		gen: 10000,
 	},
 	sunstone: {
 		name: "Sun Stone",

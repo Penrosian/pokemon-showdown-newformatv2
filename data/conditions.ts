@@ -735,7 +735,29 @@ export const Conditions: import('../sim/dex-conditions').ConditionDataTable = {
 			this.add('-weather', 'none');
 		},
 	},
-
+	windweather: {
+		name: 'WindWeather',
+		effectType: 'Weather',
+		duration: 5,
+		onEffectivenessPriority: -1,
+		onEffectiveness(typeMod, target, type, move) {
+			if (move && move.effectType === 'Move' && move.category !== 'Status' && type === 'Flying' && typeMod > 0) {
+				this.add('-fieldactivate', 'WindWeather');
+				return 0;
+			}
+		},
+		onFieldStart(field, source, effect) {
+			this.add('-weather', 'WindWeather');
+		},
+		onFieldResidualOrder: 1,
+		onFieldResidual() {
+			this.add('-weather', 'Wind', '[upkeep]');
+			this.eachEvent('WeatherWeather');
+		},
+		onFieldEnd() {
+			this.add('-weather', 'none');
+		},
+	},
 	dynamax: {
 		name: 'Dynamax',
 		noCopy: true,
