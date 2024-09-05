@@ -1500,8 +1500,12 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		onBasePowerPriority: 15,
 		onBasePower(basePower, user, target, move) {
 			let i: BoostID;
-			if (move.self && move.self.boosts) {
+			// @ts-ignore
+			if (move.self.boosts) {
+				// @ts-ignore
 				for (i in move.self.boosts) {
+					// @ts-ignore
+					// all of these will always exist because of the first if statement.
 					if (move.self.boosts[i] < 0) {
 						return this.chainModify([5, 4]);
 					}

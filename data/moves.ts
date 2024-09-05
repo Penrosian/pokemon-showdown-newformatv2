@@ -1927,6 +1927,56 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Water",
 		contestType: "Tough",
 	},
+	brittlebolt: {
+		num: 205,
+		accuracy: 90,
+		basePower: 50,
+		basePowerCallback(pokemon, target, move) {
+			let bp = move.basePower;
+			const brittleboltData = pokemon.volatiles['brittlebolt'];
+			if (brittleboltData?.hitCount) {
+				bp += 40 * brittleboltData.contactHitCount;
+			}
+			if (brittleboltData && pokemon.status !== 'slp') {
+				brittleboltData.hitCount++;
+				brittleboltData.contactHitCount++;
+				if (brittleboltData.hitCount < 5) {
+					brittleboltData.duration = 2;
+				}
+			}
+			this.debug("BP: " + bp);
+			move.priority -= 1;
+			return bp;
+		},
+		category: "Special",
+		name: "Brittle Bolt",
+		pp: 10,
+		priority: 2,
+		flags: {protect: 1, mirror: 1, metronome: 1},
+		onModifyMove(move, pokemon, target) {
+			if (pokemon.volatiles['brittlebolt'] || pokemon.status === 'slp' || !target) return;
+			pokemon.addVolatile('brittlebolt');
+			// @ts-ignore
+			// TS thinks pokemon.volatiles['rollout'] doesn't exist because of the condition on the return above
+			// but it does exist now because addVolatile created it
+			pokemon.volatiles['brittlebolt'].targetSlot = move.sourceEffect ? pokemon.lastMoveTargetLoc : pokemon.getLocOf(target);
+		},
+		condition: {
+			duration: 1,
+			onStart() {
+				this.effectState.hitCount = 0;
+				this.effectState.contactHitCount = 0;
+			},
+			onResidual(target) {
+				if (target.lastMove && target.lastMove.id === 'struggle') {
+					// don't lock
+					delete target.volatiles['brittlebolt'];
+				}
+			},
+		},
+		type: "Electric",
+		target: "normal"
+	},
 	brutalswing: {
 		num: 693,
 		accuracy: 100,
@@ -5769,6 +5819,27 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		zMove: {basePower: 160},
 		maxMove: {basePower: 130},
 		contestType: "Cute",
+	},
+	flamingcollision: {
+		num: 10009,
+		accuracy: 90,
+		basePower: 100,
+		category: "Physical",
+		name: "Flaming Collision",
+		pp: 5,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, metronome: 1, contact: 1},
+		secondary: null,
+		target: "normal",
+		type: "Fire",
+		boosts: {
+			def: -1
+		},
+		self: {
+			boosts: {
+				def: -1
+			}
+		}
 	},
 	flameburst: {
 		num: 481,
@@ -12916,6 +12987,22 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			}
 		},
 	},
+	mountainbreaker: {
+		num: 10008,
+		accuracy: 100,
+		basePower: 165,
+		category: "Special",
+		name: "Mountain Breaker",
+		pp: 5,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, metronome: 1},
+		target: "allAdjacent",
+		type: "Ground",
+		onEffectiveness(typeMod, target, type, move) {
+			if (type === 'Flying') return 1 + this.dex.getEffectiveness('Flying', type) ;	
+			else return typeMod + this.dex.getEffectiveness('Flying', type);	
+		},
+	},
 	mountaingale: {
 		num: 836,
 		accuracy: 85,
@@ -14031,6 +14118,24 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "normal",
 		type: "Electric",
 		contestType: "Cool",
+	},
+	plasmasphere: {
+		num: 10010,
+		accuracy: 100,
+		basePower: 90,
+		category: "Physical",
+		name: "Plasma Sphere",
+		pp: 10,
+		priority: 0,
+		flags: {contact: 1, protect: 1, mirror: 1, metronome: 1},
+		onPrepareHit(target, source, move) {
+			target = source.side.foe.active[source.side.foe.active.length - 1 - source.position];
+		},
+		onBasePower(relayVar, source, target, move) {
+			if (!(this.gameType === 'singles')) return this.chainModify(105, 90);
+		},
+	    type: "Electric",
+		target: "opposite"
 	},
 	playnice: {
 		num: 589,
@@ -16437,6 +16542,12 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			onStart(target, source, effect) {
 					this.add('-start', target, 'move: Sand Camoflage');
 			},
+			onModifyAccuracy(relayVar, target, source, move) {
+				if (!(move.accuracy === true) && move.accuracy < 100) {
+					move.accuracy /= 1.5
+				}
+			},
+			onCriticalHit: false
 		},
 	},
 	sandsearstorm: {
@@ -19401,6 +19512,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
             switch (pokemon.effectiveWeather()) {
             case 'sunnyday':
             case 'desolateland':
+				// @ts-ignore
+				// ts thinks move.self.boosts can be null, when it never can because the move it is referencing has this.
                 move.self.boosts = {atk: 1, spa: 1} ;
                 break;
             }
