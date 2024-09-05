@@ -6514,6 +6514,34 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		maxMove: {basePower: 130},
 		contestType: "Cute",
 	},
+	fueledbreak: {
+		num:10007,
+		accuracy: 100,
+		basePower: 55,
+		pp: 15,
+		flags: {contact: 1, protect: 1, mirror: 1, metronome: 1},
+		name: "Fueled Break",
+		target: "normal",
+		type: "Fire",
+		secondary: null,
+		priority: 0,
+		category: "Physical",
+		onAfterHit(source, target, move) {
+			if (target.fainted) {
+				source.setStatus('brn', source)
+				source.boostBy({atk: 4})
+				source.addVolatile('fueledbreak')
+			}
+		},
+		condition: {
+			onStart(target, source, effect) {
+					this.add('-start', target, 'move: Fueled Break');
+			},
+			onModifyCritRatio(critRatio) {
+				return critRatio + 2;
+			},
+		},
+	},
 	furyattack: {
 		num: 31,
 		accuracy: 85,
@@ -16392,6 +16420,25 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		zMove: {boost: {evasion: 1}},
 		contestType: "Cute",
 	},
+	sandcamoflage: {
+		num: 10008,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		name: "Sand Camoflage",
+		pp: 10,
+		target: "self",
+		priority: 0,
+		flags: {mirror: 1, metronome: 1},
+		secondary: null,
+		type: "Ground",
+		volatileStatus: 'sandcamoflage',
+		condition: {
+			onStart(target, source, effect) {
+					this.add('-start', target, 'move: Sand Camoflage');
+			},
+		},
+	},
 	sandsearstorm: {
 		num: 848,
 		accuracy: 80,
@@ -16536,6 +16583,29 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Normal",
 		zMove: {boost: {spe: 1}},
 		contestType: "Tough",
+	},
+	scorchingdagger: {
+		num: 10007,
+		accuracy: 100,
+		basePower: 120,
+		category: "Physical",
+		name: "Scorching Dagger",
+		pp: 5,
+		priority: 0,
+		flags: {contact: 1, mirror: 1, defrost: 1, protect: 1, metronome: 1},
+		thawsTarget: true,
+		target: "normal",
+		type: "Fire",
+		mindBlownRecoil: true,
+		onAfterMove(pokemon, target, move) {
+			if (move.mindBlownRecoil && !move.multihit && !(target.status == 'brn')) {
+				const hpBeforeRecoil = pokemon.hp;
+				this.damage(Math.round(pokemon.maxhp * 0.4), pokemon, pokemon, this.dex.conditions.get('Scorching Dagger'), true);
+				if (pokemon.hp <= pokemon.maxhp * 0.4 && hpBeforeRecoil > pokemon.maxhp * 0.4) {
+					this.runEvent('EmergencyExit', pokemon, pokemon);
+				}
+			}
+		},
 	},
 	scorchingsands: {
 		num: 815,
@@ -17822,6 +17892,19 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Steel",
 		contestType: "Cool",
 	},
+	smashingstrike: {
+		num: 1005,
+		accuracy: 100,
+		basePower: 100,
+		category: "Physical",
+		name: "Smashing Strike",
+		pp: 10,
+		priority: 0,
+		flags: {contact:1, protect: 1, mirror: 1, metronome: 1},
+		secondary: null,
+		type: "Normal",
+		target: "normal"
+	},
 	smellingsalts: {
 		num: 265,
 		accuracy: 100,
@@ -17881,6 +17964,29 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Normal",
 		zMove: {boost: {evasion: 1}},
 		contestType: "Clever",
+	},
+	smolderingshot: {
+		num: 10006,
+		accuracy: 90,
+		basePower: 70,
+		category: "Special",
+		name: "Smoldering Shot",
+		pp: 10,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, metronome: 1},
+		secondary: null,
+		target: "normal",
+		type: "Fire",
+		critRatio: 0,
+		onModifyMove(move, pokemon, target) {
+			if (Math.floor( Math.random() * 25 ) == 1) {
+				move.willCrit = true,
+				move.secondary = {
+					chance: 100,
+					status: 'brn',
+				}
+			}
+		},
 	},
 	snaptrap: {
 		num: 779,
