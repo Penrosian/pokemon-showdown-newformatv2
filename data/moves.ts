@@ -9505,6 +9505,58 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Water",
 		contestType: "Beautiful",
 	},
+	hydroreboot: {
+		onHit(target, source, move) {
+			let activate = false;
+			let boosts: SparseBoostsTable = {};
+			let i: BoostID;
+			let b = 0;
+			let factor = 25;
+			for (i in target.boosts) {
+				if (target.boosts[i] > 0) {
+					b += target.boosts[i]
+					target.boosts[i] = 0
+				};
+			}
+			if (b > 0) {
+				factor = 0.3334;
+				//@ts-ignore
+				move.self.boosts = {
+					def: 1,
+					spd: 1
+				};
+			}
+			if (b > 2) factor = 0.6667;
+			if (b > 4) {
+				factor = 1;
+				//@ts-ignore
+				move.self.boosts = {
+					def: 2,
+					spd: 2
+				};
+				target.clearStatus;
+				target.setBoost(boosts);
+				this.add('-clearnegativeboost', target, '[silent]');
+			}
+			const success = !!this.heal(this.modify(target.maxhp, factor));
+			if (!success) {
+				this.add('-fail', target, 'heal');
+				return this.NOT_FAIL;
+			}
+			return success;
+		},
+		num: 10012,
+		accuracy: true,
+		basePower: 0,
+		pp: 10,
+		category: "Status",
+		flags: {mirror: 1, metronome: 1},
+		type: "Water",
+		target: "self",
+		priority: 0,
+		secondary: null,
+		name: "Hydro Reboot"
+	},
 	hydrosteam: {
 		num: 876,
 		accuracy: 100,
@@ -13002,6 +13054,9 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			if (type === 'Flying') return 1 + this.dex.getEffectiveness('Flying', type) ;	
 			else return typeMod + this.dex.getEffectiveness('Flying', type);	
 		},
+		onModifyMove(move, pokemon) {
+			if (pokemon.getStat('atk', false, true) > pokemon.getStat('spa', false, true)) move.category = 'Physical';
+		}
 	},
 	mountaingale: {
 		num: 836,
@@ -21522,6 +21577,18 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "normal",
 		type: "Normal",
 		contestType: "Cute",
+	},
+	velocaqua: {
+		num: 10011,
+		accuracy: 100,
+		basePower: 75,
+		pp: 10,
+		priority: 0.1,
+		type: "Water",
+		target: "normal",
+		flags: {mirror:1, protect:1, metronome:1, contact: 1},
+		name: "Veloc-aqua",
+		category: "Physical"
 	},
 	venomdrench: {
 		num: 599,
