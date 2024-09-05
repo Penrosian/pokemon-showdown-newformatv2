@@ -3559,6 +3559,23 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Fairy",
 		contestType: "Beautiful",
 	},
+	deadaimstone: {
+		num: 10013,
+		accuracy: true,
+		priority: 1,
+		name: "Dead-Aim Stone",
+		basePower: 80,
+		category: "Physical",
+		type: "Rock",
+		pp: 10,
+		flags: {protect:1, mirror: 1, metronome: 1},
+		secondary: null,
+		target: "normal",
+		onEffectiveness(typeMod, target, type, move) {
+			if (type === 'Psychic') return 3;
+			if (type === 'Fighting') return 1;
+		},
+	},
 	decorate: {
 		num: 777,
 		accuracy: true,
@@ -16192,6 +16209,39 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Rock",
 		contestType: "Clever",
 	},
+	rockwall: {
+		num: 10014,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		pp: 15,
+		onTry(source) {
+			if (source.activeMoveActions > 1) {
+				this.hint("Rock Wall only works on your first turn out.");
+				return false;
+			}
+		},
+		priority: 3,
+		flags: {mirror: 1, metronome: 1},
+		name: "Rock Wall",
+		type: "Rock",
+		target: "self",
+		volatileStatus: "rockwall",
+		condition: {
+			duration: 2,
+			onDisableMove(pokemon) {
+				for (const moveSlot of pokemon.moveSlots) {
+					const move = this.dex.moves.get(moveSlot.id);
+					if (move.category === 'Physical' || move.category === 'Special') {
+						pokemon.disableMove(moveSlot.id);
+					}
+				}
+			},
+			onTryHit() {
+				return null;
+			}
+		}
+	},
 	rockwrecker: {
 		num: 439,
 		accuracy: 90,
@@ -19227,6 +19277,23 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "normal",
 		type: "Rock",
 		contestType: "Tough",
+	},
+	stoneswing: {
+		num: 10014,
+		accuracy: 90,
+		basePower: 130,
+		category: "Physical",
+		target: "normal",
+		flags: {metronome: 1, mirror: 1, contact: 1, protect: 1},
+		type: "Rock",
+		priority: 0,
+		pp: 5,
+		name: "Stone Swing",
+		self: {
+			boosts: {
+				atk: -2
+			}
+		}
 	},
 	storedpower: {
 		num: 500,
