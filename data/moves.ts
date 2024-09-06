@@ -779,6 +779,19 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		zMove: {effect: 'clearnegativeboost'},
 		contestType: "Cute",
 	},
+	auramaelstrom: {
+		num: 10015,
+		accuracy: 80,
+		category: "Special",
+		name: "Aura Maelstrom",
+		pp: 10,
+		basePower: 25,
+		multihit: [5],
+		priority: 0,
+		flags: {protect:1, mirror: 1, metronome: 1, bullet: 1},
+		target: "allAdjacent",
+		type: "Fighting"
+	},
 	aurasphere: {
 		num: 396,
 		accuracy: true,
@@ -13225,13 +13238,23 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		contestType: "Tough",
 	},
 	multislash: {
-		multihit: [4, 6],
 		num: 10003,
 		name: "Multi-Slash",
 		accuracy: 100,
 		basePower: 10,
+		onPrepareHit(target, source, move) {
+			let cmhr = Math.floor( Math.random() * 11 );
+			let cmh = 0;
+			source.addVolatile('multislash');
+			if (cmhr < 4) cmh = 4;
+			else if (cmhr < 8) cmh = 5;
+			else cmh = 6;
+			move.multihit = [cmh];
+			source.volatiles['multislash'].cmh = cmh;
+		},
 		basePowerCallback(pokemon, target, move) {
-			if (move.hit === 6) {
+			if (move.hit === pokemon.volatiles['multislash'].cmh) {
+				move.willCrit = undefined;
 				return 35;
 			}
 			else {
@@ -13245,6 +13268,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		flags: {contact: 1},
 		priority: 0,
 		critRatio: 2,
+		condition: {}
 	},
 	mysticalfire: {
 		num: 595,
@@ -18193,7 +18217,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		secondary: null,
 		target: "normal",
 		type: "Fire",
-		critRatio: 0,
+		willCrit: false,
 		onModifyMove(move, pokemon, target) {
 			if (Math.floor( Math.random() * 25 ) == 1) {
 				move.willCrit = true,
@@ -21715,6 +21739,23 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		secondary: null,
 		target: "self",
 		type: "Fighting",
+	},
+	victorypull: {
+		num: 10014,
+		accuracy: 100,
+		basePower: 75,
+		category: "Physical",
+		name: "Victory Pull",
+		pp: 10,
+		priority: 0,
+		flags: {contact: 1, protect: 1, mirror: 1, metronome: 1},
+		target: "normal",
+		type: "Fighting",
+		onAfterHit(source, target, move) {
+			if (target.fainted) {
+				source.boostBy({atk: 1, def: 1})
+			}
+		},
 	},
 	vinewhip: {
 		num: 22,
