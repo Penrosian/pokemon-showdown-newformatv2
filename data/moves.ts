@@ -779,6 +779,25 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		zMove: {effect: 'clearnegativeboost'},
 		contestType: "Cute",
 	},
+	auracannon: {
+		num: 10016,
+		accuracy: 95,
+		category: "Special",
+		name: "Aura Cannon",
+		basePower: 130,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, metronome: 1, pulse: 1},
+		target: "normal",
+		type: "Fighting",
+		pp: 5,
+		onAfterHit(source, target, move) {
+			this.debug("Aura Cannon recharge check")
+			if (!target.fainted) {
+				source.addVolatile('mustrecharge');
+				this.debug("Aura Cannon recharge")
+			}
+		},
+	},
 	auramaelstrom: {
 		num: 10015,
 		accuracy: 80,
@@ -1948,14 +1967,11 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			let bp = move.basePower;
 			const brittleboltData = pokemon.volatiles['brittlebolt'];
 			if (brittleboltData?.hitCount) {
-				bp += 40 * brittleboltData.contactHitCount;
+				bp += 40 * brittleboltData.hitCount;
 			}
 			if (brittleboltData && pokemon.status !== 'slp') {
 				brittleboltData.hitCount++;
-				brittleboltData.contactHitCount++;
-				if (brittleboltData.hitCount < 5) {
-					brittleboltData.duration = 2;
-				}
+				brittleboltData.duration = 2;
 			}
 			this.debug("BP: " + bp);
 			move.priority -= 1;
@@ -1978,7 +1994,6 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			duration: 1,
 			onStart() {
 				this.effectState.hitCount = 0;
-				this.effectState.contactHitCount = 0;
 			},
 			onResidual(target) {
 				if (target.lastMove && target.lastMove.id === 'struggle') {
@@ -12555,6 +12570,31 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Fire",
 		contestType: "Cool",
 	},
+	mindbreaker: {
+		num: 10018,
+		accuracy: 100,
+		basePower: 0,
+		category: "Status",
+		name: "Mind Breaker",
+		pp: 15,
+		priority: 0,
+		flags: {mirror: 1, metronome: 1, sound: 1, bypasssub: 1},
+		target: "normal",
+		type: "Psychic",
+		volatileStatus: "mindbreaker",
+		condition: {
+			onStart(target, source, sourceEffect) {
+				this.effectState.damage = 0;
+				let i: BoostID;
+				for (i in target.boosts) {
+					if (target.boosts[i] < 0) target.volatiles['mindbreaker'].damage -= target.boosts[i];
+				}
+			},
+			onResidual(target, source, effect) {
+				target.damage(target.maxhp*target.volatiles['mindbreaker'].damage/12)
+			},
+		}
+	},
 	mindreader: {
 		num: 170,
 		accuracy: true,
@@ -13613,6 +13653,25 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Electric",
 		contestType: "Cute",
 	},
+	obliterationpunch: {
+		basePowerCallback(pokemon, target, move) {
+			if (pokemon.boosts.atk > -1) {
+				let b = pokemon.boosts.atk;
+				pokemon.boosts.atk = 0;
+				return 85 + 55 * b;
+			} else return 85;
+		},
+		num: 10015,
+		accuracy: 100,
+		category: "Physical",
+		flags: {contact: 1, protect: 1, metronome: 1, mirror: 1, punch: 1},
+		pp: 5,
+		name: "Obliteration Punch",
+		basePower: 85,
+		target: "normal",
+		type: "Fighting",
+		priority: 0
+	},
 	oblivionwing: {
 		num: 613,
 		accuracy: 100,
@@ -13900,6 +13959,22 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "normal",
 		type: "Fire",
 		contestType: "Beautiful",
+	},
+	overwork: {
+		num: 10015,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		name: "Overwork",
+		pp: 5,
+		priority: 0,
+		flags: {mirror: 1, metronome: 1, recharge: 1},
+		boosts: {
+			atk: 3,
+			def: 2
+		},
+		target: "self",
+		type: "Fighting",
 	},
 	painsplit: {
 		num: 220,
@@ -15082,6 +15157,24 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "normal",
 		type: "Psychic",
 		contestType: "Cool",
+	},
+	psychopathicpunch: {
+		num: 10016,
+		accuracy: 100,
+		basePower: 85,
+		category: "Physical",
+		name: "Psychopathic Punch",
+		pp: 10,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, metronome: 1, contact: 1, punch: 1},
+		target: "normal",
+		type: "Psychic",
+		onEffectiveness(typeMod, target, type, move) {
+			return typeMod + this.dex.getEffectiveness('Dark', type);
+		},
+		onAfterHit(source, target, move) {
+			source.types = ["Dark"]
+		},
 	},
 	psychoshift: {
 		num: 375,
@@ -20450,6 +20543,22 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Psychic",
 		zMove: {boost: {spa: 1}},
 		contestType: "Clever",
+	},
+	telekineticthrow: {
+		num: 10017,
+		accuracy: true,
+		basePower: 145,
+		category: "Special",
+		name: "Telekinetic Throw",
+		pp: 5,
+		priority: -6,
+		flags: {metronome: 1, mirror: 1, protect: 1, recharge: 1, noassist: 1, failcopycat: 1},
+		self: {
+			volatileStatus: 'mustrecharge'
+		},
+		forceSwitch: true,
+		target: "normal",
+		type: "Psychic",
 	},
 	teleport: {
 		num: 100,

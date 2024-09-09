@@ -183,7 +183,7 @@ export interface MoveData extends EffectData, MoveEventMethods, HitEffect {
 	// Max move data
 	// -------------
 	/**
-	 * `true` for Max moves like Max Airstream. If its a G-Max moves, this is
+	 * `true` for Max moves like Max Airstream. If its a G-Max move, this is
 	 * the species name of the Gigantamax Pokemon that can use this G-Max move.
 	 */
 	isMax?: boolean | string;
