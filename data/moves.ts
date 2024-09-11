@@ -799,7 +799,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		},
 	},
 	auramaelstrom: {
-		num: 10015,
+		num: 10022,
 		accuracy: 80,
 		category: "Special",
 		name: "Aura Maelstrom",
@@ -1034,7 +1034,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		breaksProtect: true,
 		pp: 15,
 		priority: 0,
-		flags: {},
+		flags: {mirror: 1, metronome: 1},
 	},
 	baddybad: {
 		num: 737,
@@ -2621,6 +2621,24 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "normal",
 		type: "Fighting",
 		contestType: "Cool",
+	},
+	clairvoyantkick: {
+		num:10020,
+		accuracy: true,
+		basePower: 120,
+		category: "Physical",
+		name: "Clairvoyant Kick",
+		pp: 5,
+		type: "Psychic",
+		target: "normal",
+		flags: {contact: 1, protect: 1, mirror: 1, metronome: 1},
+		self: {
+			boosts: {
+				spd: -1,
+				def: -1
+			}
+		},
+		priority: 0
 	},
 	clamp: {
 		num: 128,
@@ -6631,7 +6649,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		contestType: "Cute",
 	},
 	fueledbreak: {
-		num:10007,
+		num:10005,
 		accuracy: 100,
 		basePower: 55,
 		pp: 15,
@@ -10699,7 +10717,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		category: "Special",
 		target: "allAdjacentFoes",
 		pp: 5,
-		flags: {contact: 1},
+		flags: {contact: 1, protect: 1, metronome: 1, mirror: 1},
 		self: {
 			volatileStatus: 'latebloom',
 		},
@@ -12314,6 +12332,19 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Ghost",
 		contestType: "Cool",
 	},
+	mentalmadness: {
+		num: 10019,
+		accuracy: 100,
+		basePower: 140,
+		category: "Special",
+		overrideDefensiveStat: 'def',
+		name: "Mental Madness",
+		pp: 1,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, metronome: 1},
+		target: "normal",
+		type: "Psychic"
+	},
 	metalburst: {
 		num: 368,
 		accuracy: 100,
@@ -12583,6 +12614,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Psychic",
 		volatileStatus: "mindbreaker",
 		condition: {
+			duration: 3,
 			onStart(target, source, sourceEffect) {
 				this.effectState.damage = 0;
 				let i: BoostID;
@@ -12592,7 +12624,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			},
 			onResidual(target, source, effect) {
 				target.damage(target.maxhp*target.volatiles['mindbreaker'].damage/12)
-			},
+			}
 		}
 	},
 	mindreader: {
@@ -13088,7 +13120,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "adjacentAlly",
 		type: "Normal",
 		priority: 0,
-		flags: {},
+		flags: {allyanim: 1, mirror: 1, metronome: 1},
 		secondary: null,
 		onHit(target, source, move) {
 			let activate = false;
@@ -13120,6 +13152,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		flags: {protect: 1, mirror: 1, metronome: 1},
 		target: "allAdjacent",
 		type: "Ground",
+		ignoreImmunity: {'Ground': true},
 		onEffectiveness(typeMod, target, type, move) {
 			if (type === 'Flying') return 1 + this.dex.getEffectiveness('Flying', type) ;	
 			else return typeMod + this.dex.getEffectiveness('Flying', type);	
@@ -13305,10 +13338,15 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		pp: 10,
 		type: "Normal",
 		target: "normal",
-		flags: {contact: 1},
+		flags: {contact: 1, protect: 1, mirror: 1, metronome: 1},
 		priority: 0,
 		critRatio: 2,
-		condition: {}
+		condition: {
+			duration: 1,
+			onStart() {
+				this.effectState.cmh = 0;
+			}
+		}
 	},
 	mysticalfire: {
 		num: 595,
@@ -13661,7 +13699,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 				return 85 + 55 * b;
 			} else return 85;
 		},
-		num: 10015,
+		num: 10023,
 		accuracy: 100,
 		category: "Physical",
 		flags: {contact: 1, protect: 1, metronome: 1, mirror: 1, punch: 1},
@@ -15159,7 +15197,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		contestType: "Cool",
 	},
 	psychopathicpunch: {
-		num: 10016,
+		num: 10021,
 		accuracy: 100,
 		basePower: 85,
 		category: "Physical",
@@ -15277,7 +15315,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		name: "Pulverize",
 		pp: 5,
 		priority: 0,
-		flags: {recharge: 1, contact: 1},
+		flags: {recharge: 1, contact: 1, mirror: 1, metronome: 1, protect: 1},
 		secondary: {
 			chance: 100,
 			volatileStatus: 'flinch',
@@ -16327,7 +16365,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		contestType: "Clever",
 	},
 	rockwall: {
-		num: 10014,
+		num: 10024,
 		accuracy: true,
 		basePower: 0,
 		category: "Status",
@@ -16748,7 +16786,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		contestType: "Cute",
 	},
 	sandcamoflage: {
-		num: 10008,
+		num: 10025,
 		accuracy: true,
 		basePower: 0,
 		category: "Status",
@@ -19396,7 +19434,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		contestType: "Tough",
 	},
 	stoneswing: {
-		num: 10014,
+		num: 10015,
 		accuracy: 90,
 		basePower: 130,
 		category: "Physical",
@@ -20550,6 +20588,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		basePower: 145,
 		category: "Special",
 		name: "Telekinetic Throw",
+		overrideDefensiveStat: 'def',
 		pp: 5,
 		priority: -6,
 		flags: {metronome: 1, mirror: 1, protect: 1, recharge: 1, noassist: 1, failcopycat: 1},
@@ -20559,6 +20598,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		forceSwitch: true,
 		target: "normal",
 		type: "Psychic",
+		
 	},
 	teleport: {
 		num: 100,
@@ -22760,4 +22800,315 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Electric",
 		contestType: "Cool",
 	},
+	examplemove: {
+	name: "Example Move",
+	num: 0,
+	condition: {
+		
+	},
+	basePower: 90,
+	accuracy: 100,
+	pp: 10,
+	category: "Physical",
+	type: "Normal",
+	priority: 0,
+	target: "normal",
+	flags: { 
+		metronome: undefined, 
+		mirror: undefined, 
+		protect: undefined, 
+		allyanim: undefined, 
+		bypasssub: undefined, 
+		bite: undefined, 
+		bullet: undefined, 
+		cantusetwice: undefined, 
+		charge: undefined, 
+		contact: undefined, 
+		dance: undefined, 
+		defrost: undefined, 
+		distance: undefined, 
+		failcopycat: undefined, 
+		failencore: undefined, 
+		failinstruct: undefined, 
+		failmefirst: undefined, 
+		failmimic: undefined, 
+		futuremove: undefined, 
+		gravity: undefined, 
+		heal: undefined, 
+		mustpressure: undefined, 
+		noassist: undefined, 
+		nonsky: undefined, 
+		noparentalbond: undefined, 
+		nosketch: undefined, 
+		nosleeptalk: undefined, 
+		pledgecombo: undefined, 
+		powder: undefined, 
+		pulse: undefined, 
+		punch: undefined, 
+		recharge: undefined, 
+		reflectable: undefined, 
+		slicing: undefined, 
+		snatch: undefined, 
+		sound: undefined, 
+		wind: undefined, 
+	},
+	realMove: "Hidden Power",
+
+	damage: null, 
+	contestType: "cool",
+	noPPBoosts: false, 
+
+	isZ: false, 
+	zMove: {
+		basePower: undefined,
+		effect: undefined,
+		boost: {
+
+		},
+	},
+
+	isMax: false,
+	maxMove: {
+		basePower: 0,
+	},
+	ohko: false, 
+	thawsTarget: false,
+	heal: [0, 0],
+	forceSwitch: false,
+	selfSwitch: false, 
+	selfBoost: { 
+		boosts: {
+			def: -1,
+		}
+	},
+	selfdestruct: false, 
+	breaksProtect: false,
+	recoil: [0, 0],
+	drain: [0, 0],
+	mindBlownRecoil: false,
+	stealsBoosts: false,
+	struggleRecoil: false,
+	secondary: null, 
+	secondaries: null, 
+	self: null, 
+	hasSheerForce: false, 
+
+	alwaysHit: undefined, 
+	baseMoveType: undefined, 
+	basePowerModifier: undefined,
+	critModifier: undefined, 
+	critRatio: 1,
+	overrideOffensivePokemon: 'source', 
+	overrideOffensiveStat: 'atk',
+	overrideDefensivePokemon: 'target', 
+	overrideDefensiveStat: 'def',
+	forceSTAB: false,
+	ignoreAbility: false,
+	ignoreAccuracy: undefined, 
+	ignoreDefensive: false,
+	ignoreEvasion: false,
+	ignoreImmunity: false, 
+	ignoreNegativeOffensive: undefined, 
+	ignoreOffensive: undefined, 
+	ignorePositiveDefensive: undefined, 
+	ignorePositiveEvasion: undefined, 
+	multiaccuracy: false,
+	multihit: 1, 
+	multihitType: undefined, 
+	noDamageVariance: undefined, 
+	nonGhostTarget: undefined, 
+	pressureTarget: undefined, 
+	spreadModifier: undefined, 
+	sleepUsable: false,
+	smartTarget: false,
+	tracksTarget: false,
+	willCrit: false, 
+	callsMove: false, 
+
+	hasCrashDamage: false,
+	isConfusionSelfHit: false,
+	stallingMove: false,
+	baseMove: undefined,
+	},
+	examplemovec: { /** Fully commented */
+		name: "Example Move",
+		/** move index number, used for Metronome rolls */
+		num: 0,
+		/** volatile status data */
+		condition: {
+			
+		},
+		basePower: 90 /** 0 is no damage, ex. for status moves */,
+		accuracy: 100 /** true for guaranteed hit */,
+		pp: 10,
+		category: "Physical" /** 'Physical' | 'Special' | 'Status' */,
+		type: "Normal",
+		priority: 0,
+		target: "normal",
+		flags: { /** all flags are optional and undefined (off) by default. set a flag to 1 to make it true. */
+			/** most common flags */
+			metronome: undefined, // Can be selected by Metronome.
+			mirror: undefined, // Can be copied by Mirror Move.
+			protect: undefined, // Blocked by Detect, Protect, Spiky Shield, and if not a Status move, King's Shield.
+			/** other flags */
+			allyanim: undefined, // The move plays its animation when used on an ally.
+			bypasssub: undefined, // Ignores a target's substitute.
+			bite: undefined, // Power is multiplied by 1.5 when used by a Pokemon with the Ability Strong Jaw.
+			bullet: undefined, // Has no effect on Pokemon with the Ability Bulletproof.
+			cantusetwice: undefined, // The user cannot select this move after a previous successful use.
+			charge: undefined, // The user is unable to make a move between turns.
+			contact: undefined, // Makes contact.
+			dance: undefined, // When used by a Pokemon, other Pokemon with the Ability Dancer can attempt to execute the same move.
+			defrost: undefined, // Thaws the user if executed successfully while the user is frozen.
+			distance: undefined, // Can target a Pokemon positioned anywhere in a Triple Battle.
+			failcopycat: undefined, // Cannot be selected by Copycat.
+			failencore: undefined, // Encore fails if target used this move.
+			failinstruct: undefined, // Cannot be repeated by Instruct.
+			failmefirst: undefined, // Cannot be selected by Me First.
+			failmimic: undefined, // Cannot be copied by Mimic.
+			futuremove: undefined, // Targets a slot, and in 2 turns damages that slot.
+			gravity: undefined, // Prevented from being executed or selected during Gravity's effect.
+			heal: undefined, // Prevented from being executed or selected during Heal Block's effect.
+			mustpressure: undefined, // Additional PP is deducted due to Pressure when it ordinarily would not.
+			noassist: undefined, // Cannot be selected by Assist.
+			nonsky: undefined, // Prevented from being executed or selected in a Sky Battle.
+			noparentalbond: undefined, // Cannot be made to hit twice via Parental Bond.
+			nosketch: undefined, // Cannot be copied by Sketch.
+			nosleeptalk: undefined, // Cannot be selected by Sleep Talk.
+			pledgecombo: undefined, // Gems will not activate. Cannot be redirected by Storm Drain / Lightning Rod.
+			powder: undefined, // Has no effect on Pokemon which are Grass-type, have the Ability Overcoat, or hold Safety Goggles.
+			pulse: undefined, // Power is multiplied by 1.5 when used by a Pokemon with the Ability Mega Launcher.
+			punch: undefined, // Power is multiplied by 1.2 when used by a Pokemon with the Ability Iron Fist.
+			recharge: undefined, // If this move is successful, the user must recharge on the following turn and cannot make a move.
+			reflectable: undefined, // Bounced back to the original user by Magic Coat or the Ability Magic Bounce.
+			slicing: undefined, // Power is multiplied by 1.5 when used by a Pokemon with the Ability Sharpness.
+			snatch: undefined, // Can be stolen from the original user and instead used by another Pokemon using Snatch.
+			sound: undefined, // Has no effect on Pokemon with the Ability Soundproof.
+			wind: undefined, // Activates the Wind Power and Wind Rider Abilities.
+		},
+		/** Hidden Power */
+		/** not sure what this actually does */
+		realMove: "Hidden Power",
+	
+		damage: null, /** number | 'level' | false | null */
+		contestType: "cool",
+		noPPBoosts: false, /** pp will stay the same ex. revival blessing */
+	
+		// Z-move data
+		// -----------
+		/**
+		 * ID of the Z-Crystal that calls the move.
+		 * `true` for Z-Powered status moves like Z-Encore.
+		 */
+		isZ: false, /** boolean | IDEntry */
+		zMove: {
+			basePower: 60,
+			effect: undefined,
+			boost: {
+				atk: 1,
+				def: 1
+			},
+		},
+	
+		// Max move data
+		// -------------
+		/**
+		 * `true` for Max moves like Max Airstream. If its a G-Max move, this is
+		 * the species name of the Gigantamax Pokemon that can use this G-Max move.
+		 */
+		isMax: false, /** boolean | string */
+		maxMove: {
+			basePower: 140,
+		},
+	
+		// Hit effects
+		// -----------
+		ohko: false, /** boolean | 'Ice' */
+		thawsTarget: false,
+		heal: [0, 0],
+		forceSwitch: false,
+		selfSwitch: false, /** 'copyvolatile' | 'shedtail' | boolean */
+		selfBoost: { /** only difference between this and self:{boosts: {}} is that this one is blocked by sheer force. use self:{boosts:{}} in almost all cases. */
+			boosts: {
+				def: -1,
+			}
+		},
+		selfdestruct: false, /** 'always' | 'ifHit' | boolean */
+		breaksProtect: false,
+		/**
+		 * Note that this is only "true" recoil. Other self-damage, like Struggle,
+		 * crash (High Jump Kick), Mind Blown, Life Orb, and even Substitute and
+		 * Healing Wish, are sometimes called "recoil" by the community, but don't
+		 * count as "real" recoil.
+		 */
+		recoil: [0, 0],
+		drain: [0, 0],
+		mindBlownRecoil: false,
+		stealsBoosts: false,
+		struggleRecoil: false,
+		secondary: null, /** SecondaryEffect | null */
+		secondaries: null, /** SecondaryEffect[] | null */ /** used for moves with multiple secondary effects, like ice fang being able to freeze and flinch. */
+		self: null, /** SecondaryEffect | null */ /** applies secondary effects to the user, ex. close combat dropping the user's stats */
+		hasSheerForce: false, /** seems to be changed if the pokemon has sheer force, can be checked in onAfterMove if a move has something that should be stopped by sheer froce (ex. mortal spin clearing field effects) that isn't actually a secondary effect. Electroshot also sets this to true, which I am not sure about. */
+	
+		// Hit effect modifiers
+		// --------------------
+		alwaysHit: undefined, // currently unused
+		baseMoveType: undefined, //currently unused
+		basePowerModifier: undefined, //currently unused
+		critModifier: undefined, //currently unused
+		critRatio: 1,
+		/**
+		 * Pokemon for the attack stat. Ability and Item damage modifiers still come from the real attacker.
+		 */
+		overrideOffensivePokemon: 'source', /** 'target' | 'source' */ /** for moves like foul play */
+		/**
+		 * Physical moves use attack stat modifiers, special moves use special attack stat modifiers.
+		 */
+		overrideOffensiveStat: 'atk',
+		/**
+		 * Pokemon for the defense stat. Ability and Item damage modifiers still come from the real defender.
+		 */
+		overrideDefensivePokemon: 'target', /** 'target' | 'source' */
+		/**
+		 * uses modifiers that match the new stat
+		 */
+		overrideDefensiveStat: 'def',
+		forceSTAB: false,
+		ignoreAbility: false,
+		ignoreAccuracy: undefined, //currently unused
+		ignoreDefensive: false,
+		ignoreEvasion: false,
+		ignoreImmunity: false, /** boolean | {[typeName: string]: boolean} */ /** used for ex. thousand arrows and mountain breaker */
+		ignoreNegativeOffensive: undefined, //currently unused
+		ignoreOffensive: undefined, //currently unused
+		ignorePositiveDefensive: undefined, //currently unused
+		ignorePositiveEvasion: undefined, //currently unused
+		multiaccuracy: false,
+		multihit: 1, /** number | number[] */
+		multihitType: undefined, /** 'parentalbond' | undefined */
+		noDamageVariance: undefined, //currently unused
+		nonGhostTarget: undefined, /** the target if the user is not ghost type. Currently only used for curse. */
+		pressureTarget: undefined, //currently unused
+		spreadModifier: undefined, //currently unused
+		sleepUsable: false,
+		/**
+		 * Will change target if current target is unavailable. (Dragon Darts)
+		 */
+		smartTarget: false,
+		/**
+		 * Tracks the original target through Ally Switch and other switch-out-and-back-in
+		 * situations, rather than just targeting a slot. (Stalwart, Snipe Shot)
+		 */
+		tracksTarget: false,
+		willCrit: false, /** guaranteed crit */
+		callsMove: false, /** used for moves that call other moves like mirror move, copycat, and metronome */
+	
+		// Mechanics flags
+		// ---------------
+		hasCrashDamage: false,
+		isConfusionSelfHit: false,
+		stallingMove: false,
+		baseMove: undefined,
+		}
 };
