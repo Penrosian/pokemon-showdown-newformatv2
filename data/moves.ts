@@ -140,6 +140,21 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Flying",
 		contestType: "Cool",
 	},
+	actofinfraction: {
+		num: 10027,
+		accuracy: 100,
+		basePower: 95,
+		category: "Special",
+		name: "Act of Infraction",
+		pp: 15,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, metronome: 1},
+		overrideOffensivePokemon: 'target',
+		secondary: null,
+		target: "normal",
+		type: "Dark",
+		contestType: "Clever",
+	},
 	acupressure: {
 		num: 367,
 		accuracy: true,
@@ -3787,6 +3802,34 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Fighting",
 		zMove: {boost: {evasion: 1}},
 		contestType: "Cool",
+	},
+	devastatingburn: {
+		num: 10026,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		name: "Devastating Burn",
+		pp: 1,
+		priority: 0,
+		flags: {sound: 1, protect: 1, bypasssub: 1, metronome: 1},
+		noPPBoosts: true,
+		target: "normal",
+		type: "Dark",
+		volatileStatus: "devastatingburn",
+		boosts: {
+			atk: -1,
+			def: -1,
+			spa: -1,
+			spd: -1,
+			spe: -1
+		},
+		status: 'flinch',
+		condition: {
+			noCopy: true,
+			onTrapPokemon(pokemon) {
+				pokemon.tryTrap();
+			},
+		},
 	},
 	devastatingdrake: {
 		num: 652,
