@@ -5746,14 +5746,12 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 	strengthherb: {
 		onUpdate(pokemon) {
 			if (pokemon.volatiles['mustrecharge']) {
-				pokemon.eatItem();
-			}
-		},
-		onEat(pokemon) {
-			if (pokemon.volatiles['mustrecharge']) {
 				this.debug('strength herb - remove recharge turn for ' + pokemon.name);
 				pokemon.removeVolatile('mustrecharge');
 			}
+		},
+		onEat(pokemon) {
+			
 		},
 		name: "Strength Herb",
 		spritenum: 358,
