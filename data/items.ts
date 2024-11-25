@@ -5744,12 +5744,15 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		gen: 8,
 	},
 	strengthherb: {
-		onChargeMove(pokemon, target, move) {
-			if (pokemon.useItem()) {
-				this.debug('strength herb - remove recharge turn for ' + move.id);
-				this.attrLastMove('[still]');
-				this.addMove('-anim', pokemon, move.name, target);
-				return false; // skip charge turn
+		onUpdate(pokemon) {
+			if (pokemon.volatiles['mustrecharge']) {
+				pokemon.eatItem();
+			}
+		},
+		onEat(pokemon) {
+			if (pokemon.volatiles['mustrecharge']) {
+				this.debug('strength herb - remove recharge turn for ' + pokemon.name);
+				pokemon.removeVolatile('mustrecharge');
 			}
 		},
 		name: "Strength Herb",

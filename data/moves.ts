@@ -20009,6 +20009,21 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		zMove: {effect: 'clearnegativeboost'},
 		contestType: "Tough",
 	},
+	swarmpelt: {
+		num: 10020,
+		accuracy: 95,
+		basePower: 60,
+		category: "Physical",
+		name: "Swarm Pelt",
+		pp: 25,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, metronome: 1},
+		target: "normal",
+		type: "Bug",
+		onBasePower(relayVar, source, target, move) {
+			move.basePower += Math.floor(Math.random() * 51)
+		},
+	},
 	sweetkiss: {
 		num: 186,
 		accuracy: 75,
